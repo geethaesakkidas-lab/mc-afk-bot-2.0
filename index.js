@@ -10,10 +10,10 @@ const mineflayer = require('mineflayer');
 const pathfinderPkg = require('mineflayer-pathfinder');
 const autoEatPkg = require('mineflayer-auto-eat');
 
-const log = require('./lib/logger');
-const { startAntiAfk } = require('./lib/antiAfk');
-const { setupCommands, formatUptime, START_TIME } = require('./lib/commands');
-const { startStatusServer } = require('./lib/statusServer');
+const log = require('./logger');
+const { startAntiAfk } = require('./antiAfk');
+const { setupCommands, formatUptime, START_TIME } = require('./commands');
+const { startStatusServer } = require('./statusServer');
 
 const { pathfinder, Movements } = pathfinderPkg;
 const autoEat = autoEatPkg.plugin;
