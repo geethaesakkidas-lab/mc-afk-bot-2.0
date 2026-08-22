@@ -36,8 +36,8 @@
   },
   "reconnect": {
     "enabled": true,
-    "delayMs": 5000,
-    "maxDelayMs": 60000
+    "delayMs": 10000,
+    "maxDelayMs": 30000
   },
   "statusServer": {
     "enabled": true,
