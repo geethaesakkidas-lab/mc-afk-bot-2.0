@@ -1,4 +1,4 @@
-app = "mc-afk-bot-geetha" # Choose a unique app name
+app = "GITHUB_ACTIONS" # Choose a unique app name
 primary_region = "bom"    # Mumbai region
 
 [build]
