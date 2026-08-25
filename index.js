@@ -1,34 +1,50 @@
 const http = require('http');
 const mineflayer = require('mineflayer');
 
-// Keep-Alive Web Server for Render
+// -------------------------------------------------------------
+// PART 1: Web Server to Trick Render into Staying Online
+// -------------------------------------------------------------
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Minecraft Bot Active');
+  res.end('Minecraft Bot HTTP Status: Active');
 });
 
+// Render injects a dynamic port via process.env.PORT
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`[HTTP Server] Listening on port ${PORT} for pings`);
+});
 
-// Mineflayer Connection
+// -------------------------------------------------------------
+// PART 2: Mineflayer Bot Connection & Auto-Reconnect Loop
+// -------------------------------------------------------------
 function createBot() {
   const bot = mineflayer.createBot({
-    host: '4friendSMP.aternos.me', // e.g. OreoMC or FalixNodes IP
+    host: '4friendSMP.aternos.me', // e.g., FalixNodes or OreoMC server IP
     port: 46993,
     username: 'AFK_Bot_247'
   });
 
-  bot.on('kicked', (reason) => {
-    console.log('Kicked:', reason);
-    setTimeout(createBot, 5000); // Rejoin in 5 seconds
+  bot.on('spawn', () => {
+    console.log('[Minecraft] Bot successfully spawned in the server.');
   });
 
-  bot.on('end', () => {
-    console.log('Disconnected. Reconnecting...');
+  // Reconnect if kicked by server or anti-AFK plugins
+  bot.on('kicked', (reason) => {
+    console.log('[Minecraft] Kicked from server:', reason);
+    console.log('[Minecraft] Reconnecting in 5 seconds...');
     setTimeout(createBot, 5000);
   });
 
-  bot.on('error', (err) => console.log('Error:', err.message));
+  // Reconnect if server restarts or network drops
+  bot.on('end', () => {
+    console.log('[Minecraft] Disconnected. Reconnecting in 5 seconds...');
+    setTimeout(createBot, 5000);
+  });
+
+  bot.on('error', (err) => {
+    console.log('[Minecraft] Connection error:', err.message);
+  });
 }
 
 createBot();
