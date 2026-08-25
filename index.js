@@ -19,10 +19,12 @@ server.listen(PORT, () => {
 // PART 2: Mineflayer Bot Connection & Auto-Reconnect Loop
 // -------------------------------------------------------------
 function createBot() {
-  const bot = mineflayer.createBot({
-    host: '4friendSMP.aternos.me', // e.g., FalixNodes or OreoMC server IP
-    port: 46993,
-    username: 'AFK_Bot_247'
+const bot = mineflayer.createBot({
+  host: '4friendSMP.aternos.me', // Domain name only
+  port: 46993,                    // Port separated as a number
+  username: 'AFK_Bot_247',
+  auth: 'offline'                 // Required for cracked servers
+});
   });
 
   bot.on('spawn', () => {
